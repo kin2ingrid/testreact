@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Les ONG</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+
+</head>
+
+<body>
+    <style>
+        #map { height: 500px; }
+        .leaflet-popup-content-wrapper {
+            background-color: #b2afea; 
+            border: 2px solid #8b787c; 
+            border-radius: 8px; 
+        }
+
+        .leaflet-popup-content {
+            color: #333; 
+            font-family: Arial, sans-serif; 
+        }
+
+        .leaflet-popup-tip {
+            background-color: #4CAF50; 
+        }
+    </style>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-secondary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid nav-bar p-0">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white px-4 px-lg-5 py-3 py-lg-0">
+            <a href="" class="navbar-brand p-0">
+                <h1 class="display-5 text-secondary m-0"><img src="img/armoirie.png" class="img-fluid" alt=""></h1>
+                <!-- <img src="img/logo.png" alt="Logo"> -->
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="index.html" class="nav-item nav-link">Acceuil</a>
+                    <a href="institution.html" class="nav-item nav-link">Institutions</a>
+                    <a href="ong.html" class="nav-item nav-link active">ONG</a>
+                    
+                    <a href="#" class="nav-item nav-link">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    
+    <div class="container-fluid bg-ong">
+        <div class="container text-center py-5" style="max-width: 900px;">
+            <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">La localisation des ONG</h1>  
+        </div>
+    </div>
+    <!-- Header End -->
+
+    <!-- centre Start -->
+    <h1>Carte des ONG au Burkina Faso</h1>
+    <div id="map"></div>
+                
+                    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+                    <script src="js/ong.js"></script>
+                    <script>
+                        // Initialiser la carte centrée sur le Burkina Faso
+                        var map = L.map('map').setView([12.238333, -1.561593], 6);
+                
+                        // Ajouter une couche de tuiles OpenStreetMap
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            maxZoom: 18
+                        }).addTo(map);
+
+                        var customIcon = L.icon({
+                            iconUrl: 'img/ong2.png', // Chemin vers l'image de ton marqueur
+                            iconSize: [40, 40], // Taille de l'icône (ici, 40x40 pixels)
+                            iconAnchor: [20, 40], // Point d'ancrage (ici, au centre en bas de l'icône)
+                            popupAnchor: [0, -40] // Ouverture du popup juste au-dessus de l'icône
+                        });
+                
+                        // Parcourir les centres et les ajouter à la carte
+                        ongs.forEach(function(ong) {
+                            var marker = L.marker([ong.lat, ong.lng], { icon: customIcon })
+                                .addTo(map)
+                                .bindPopup("<b>" + "Nom: "+ ong.name + "</b><br>" + "Description: "+ ong.description + "<br>" + "Latitude: "+ ong.lat + "<br>" +  "Longitude: " +ong.lng+ "<br>"+ "Responable: "+ ong.responsable+ "<br>"+
+                                "Email: "+ong.email +"<br>" + "Telephone: "+ ong.telephone+ "<br>" + "Adresse: "+ ong.adresse+ "<br>"+
+                                         "<a href='" + ong.website + "' target='_blank'>Voir le site web</a>");
+                            
+                            marker.on('click', function() {
+                                map.setView([ong.lat, ong.lng], 12); // Zoom sur le centre avec un niveau de zoom de 12
+                                        });             
+                        });
+                    </script>   
+        </div>
+    <!-- About End -->
+
+
+    
+    
+<!-- JavaScript Libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/wow/wow.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/counterup/counterup.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+</body>
+
+</html>
